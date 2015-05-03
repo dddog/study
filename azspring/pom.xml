@@ -116,13 +116,20 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Custom -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.35</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.8</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
