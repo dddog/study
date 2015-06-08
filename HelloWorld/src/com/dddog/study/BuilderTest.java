@@ -3,9 +3,6 @@ package com.dddog.study;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
-
-
 public class BuilderTest {
 
 	public static void main(String[] args) {

@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 public class Constructor {
 
-	@Autowired
-	@Qualifier("bigBuilder")
 	private BuilderMaker builder;
 
 	public Constructor() {
