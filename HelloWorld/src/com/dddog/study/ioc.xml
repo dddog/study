@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 필드변수 : name, 집을 건설합니다. -->
+	<!-- <bean id="builder" class="com.dddog.study.SmallBuilder"></bean> -->
+	<!-- 필드변수 : name, 빌딩을 건설합니다. -->
+	<bean id="builder" class="com.dddog.study.BigBuilder"></bean>
+	<!-- 필드변수 : name, 시공사에 일을 시켜 건물을 건설합니다. -->
+	<bean id="constructor" class="com.dddog.study.Constructor">
+		<property name="builder">
+			<ref bean="builder"/>
+		</property>
+	</bean>
+	
+	<!--
+	과제 : 위 xml 구성을 만족하는 클래스들을 작성합니다.
+	테스트 클래스를 만들고 다음을 작성합니다.
+	constructor.order() 메소트를 실행하면 건물을 건설하는 정보를 콘솔창에 출력합니다. 
+	 -->
+</beans>

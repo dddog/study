@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="magician" class="magic.Magician">
+		<property name="magicBox" ref="magicBox" />
+		<property name="magicWords" value="수리수리마수리!!!" />
+	</bean>
+	<bean id="magicBox" class="magic.MagicBoxImpl">
+		<replaced-method name="getContents" replacer="tiger" />
+	</bean>
+	<bean id="tiger" class="magic.Tiger" />
+</beans>

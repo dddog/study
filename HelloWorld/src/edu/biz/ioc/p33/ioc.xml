@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 빈 컨테이너에 등록된 객체의 관계를 애노테이션을 보고 설정한다. -->
+	<context:annotation-config />
+	<!-- 베이스패키지 밑에서부터 하부의 모든 클래스를 스캔해서 빈컨테이너에 등록한다. -->
+	<context:component-scan base-package="edu.biz.ioc.p33" />
+
+</beans>

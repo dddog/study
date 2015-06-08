@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- init-method: 클래스 생성 후 기동시켜 준다. 
+	destroy-method="": 클래스 파괴 시 파괴 전 기동시켜 준다.-->
+	<bean id="pet" class="com.jacademy.lesson.Pet" init-method="init">
+		<property name="name" value="White Cat"></property>
+	</bean>
+	
+	<bean id="pet2" class="com.jacademy.lesson.Pet">
+		<constructor-arg value="Silver Cat"></constructor-arg>
+	</bean>
+	
+	<bean id="user" class="com.jacademy.lesson.User">
+		<property name="name" value="Tom"></property>
+		<property name="pets">
+			<list>
+				<ref bean="pet"/>
+				<ref bean="pet2"/>
+				<!-- 익명 bean 사용:1회용 -->
+				<bean class="com.jacademy.lesson.Pet">
+					<property name="name" value="Black Cat"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>
