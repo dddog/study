@@ -15,24 +15,24 @@
 	execution(void *(..)) 적용하여 5개 메소드의 before, around advice를 적용한다.
 	적용 내용은 로그로 advice가 정용되었다고 기술한다.
 	 -->
-	<aop:config>
-		<aop:pointcut expression="execution(void *(..))" id="pc" />
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(void *(..))" id="pointCut" />
 		
 		<aop:aspect ref="advice">
-			<aop:before method="simpleBeforeAdvice" pointcut-ref="pc"/>
-			<aop:around method="simpleAroundAdvice" pointcut-ref="pc"/>
+			<aop:before method="simpleBeforeAdvice" pointcut-ref="pointCut"/>
+			<aop:around method="simpleAroundAdvice" pointcut-ref="pointCut"/>
 		</aop:aspect>
 	</aop:config>
 	
 	<bean id="advice" class="com.jacademy.aopquiz.MyAdvice"></bean>
 	
-	<bean id="bean" class="com.jacademy.aopquiz.Bean"></bean>
-	<bean id="target" class="com.jacademy.aopquiz.Target"></bean>
-	<bean id="parent" class="com.jacademy.aopquiz.Parent"></bean>
+	<bean id="myBean" class="com.jacademy.aopquiz.Bean"></bean>
+	<bean id="myTarget" class="com.jacademy.aopquiz.Target"></bean>
+	<bean id="myParent" class="com.jacademy.aopquiz.Parent"></bean>
 	
 	<bean id="myTestBean" class="com.jacademy.aopquiz.MyTestBean">
-		<property name="bean" ref="bean"></property>
-		<property name="target" ref="target"></property>
-		<property name="parent" ref="parent"></property>
+		<property name="bean" ref="myBean"></property>
+		<property name="target" ref="myTarget"></property>
+		<property name="parent" ref="myParent"></property>
 	</bean>
 </beans>

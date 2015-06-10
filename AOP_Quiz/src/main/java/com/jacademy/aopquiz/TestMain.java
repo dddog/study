@@ -1,14 +1,13 @@
 package com.jacademy.aopquiz;
 
 
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-		ctx.load("aop_quiz.xml");
-		ctx.refresh();
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("aop_quiz.xml");
 		
 		MyTestBean myBean = (MyTestBean) ctx.getBean("myTestBean");
 		

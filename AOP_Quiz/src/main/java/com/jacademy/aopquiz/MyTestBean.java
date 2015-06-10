@@ -1,5 +1,8 @@
 package com.jacademy.aopquiz;
 
+import org.springframework.stereotype.Component;
+
+@Component("myTestBean")
 public class MyTestBean {
 
 	Parent parent;

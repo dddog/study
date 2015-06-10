@@ -1,0 +1,8 @@
+select * from customer2;
+
+CREATE TABLE customer2(
+	ID NUMBER NOT NULL,
+	NAME VARCHAR(20) NOT NULL,
+	AGE NUMBER NOT NULL,
+	PRIMARY KEY (ID)
+)
