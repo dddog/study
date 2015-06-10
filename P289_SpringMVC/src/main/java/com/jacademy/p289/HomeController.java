@@ -43,7 +43,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value="/hello.do")
+	@RequestMapping(value="/hello")
 	public String first(Model model) {
 		logger.info("/hello.do first");
 		model.addAttribute("caller", "first");
