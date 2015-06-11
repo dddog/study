@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 컨트롤러에서 PdfRevenueSummary를 찾으면 PdfRevenueReportView를 기동시킨다. -->
+	<bean id="PdfRevenueSummary" class="com.jacademy.pdf.PdfRevenueReportView" />
+</beans>
