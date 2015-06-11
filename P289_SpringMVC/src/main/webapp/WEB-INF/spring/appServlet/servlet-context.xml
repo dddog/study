@@ -21,8 +21,7 @@
 		<beans:property name="suffix" value=".jsp" /> <!-- 뒤에 붙는 것 -->
 	</beans:bean>
 	
-	<context:component-scan base-package="com.jacademy.p289" />
-	
+	<context:component-scan base-package="com.jacademy" />
 	
 	
 </beans:beans>
