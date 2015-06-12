@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- The mapper element requires a namespace attribute to be specified. -->
+<mapper namespace="com.jacademy.y04mybatis.repository.HeroDao">
+
+	<resultMap type="com.jacademy.y04mybatis.domain.Hero" id="heroMap">
+		<result property="sno" column="sno" javaType="java.lang.Integer" jdbcType="NUMERIC" />
+		<result property="name" column="name"/>
+		<result property="age" column="age"/>
+	</resultMap>
+<!-- 
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey resultType="string" keyProperty="boardID" order="BEFORE">
+			SELECT MAX(boardID)+1 FROM board
+		</selectKey>
+		INSERT INTO board(boardID, title, content)
+		VALUES(#{boardID}, #{title}, #{content})
+	</insert>  
+ -->
+	<insert id="insert" parameterType="Hero">
+		<selectKey resultType="int" keyProperty="sno" order="BEFORE">
+			select last_number from user_sequences where sequence_name='HERO_SEQ'
+		</selectKey>
+		insert into hero(sno, name, age) values(hero_seq.NEXTVAL, #{name}, #{age})
+	</insert>
+
+	<delete id="delete" parameterType="Hero">
+		delete hero where sno=#{sno}
+	</delete>
+
+	<update id="update" parameterType="Hero">
+		update hero set name=#{name}, age=#{age} where sno=#{sno}
+	</update>
+
+	<select id="selectByKey" parameterType="Hero" resultMap="heroMap">
+		select * from hero where sno=#{sno}
+	</select>
+	
+	<select id="select" resultMap="heroMap">
+		select * from hero order by sno desc
+	</select>
+	
+	<!-- where 조건절에서 사용하는 꺽쇠기호는 xml에서는 정상적인 방법으로 사용할 수 없다. -->
+	<!-- CDATA구문으로 감싸 꺽쇠기호를 그대로 사용할 수 있다. -->
+	<!-- 다른 방법으로는 꺽쇠를 대신하는 기호를 사용하는 것도 가능하다. &lt; &gt; -->
+	<select id="selectByLimit" parameterType="HeroInfo" resultMap="heroMap">
+	<![CDATA[
+		select * from (
+			select rownum as rnum, a.* from (select * from hero order by sno desc) a
+		) where rnum >= #{start} and rnum <= #{end} 
+	]]>
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from hero
+	</select>
+	
+</mapper>
+
+

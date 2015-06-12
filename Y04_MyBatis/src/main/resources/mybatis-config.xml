@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- <settings>
+        changes from the defaults
+       <setting name="lazyLoadingEnabled" value="true" />
+       <setting name="cacheEnabled" value="true"/>
+    </settings> -->
+
+	<!-- 클래스패스 기준으로 찾는다. -->
+	<!-- <properties resource="jdbc.properties" /> -->
+	
+	<!-- <typeAliases>
+		<typeAlias type="com.jacademy.y04mybatis.domain.Hero"
+			alias="Hero"></typeAlias>
+	</typeAliases> -->
+	
+	<!-- Database connection properties. -->
+	<!-- Transaction related properties. -->
+	<!-- <environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments> -->
+	
+	<!-- And also have not defined mappers configuration. -->
+	<!-- <mappers>
+		<mapper resource="com/jacademy/y03mybatis/mapper/user-mapper.xml" />
+	</mappers> -->
+	
+</configuration>

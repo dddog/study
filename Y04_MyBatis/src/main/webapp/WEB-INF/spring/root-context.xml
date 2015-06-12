@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<!-- Declare a datasource that has pooling capabilities -->
+	<!-- 
+	acquireIncrement : how many connections will be created at a time when there will be a shortage of connections.
+	idleConnectionTestPeriod : after how much delay a connection will be closed if it is no longer in use.
+	maxStatements : Max number of SQL statements to be executed on a connection.
+	 -->
+	<!-- 
+	<bean id="dataSource" 
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" 
+		p:driverClass="${jdbc.driverClassName}"
+		p:jdbcUrl="${jdbc.url}" 
+		p:user="${jdbc.username}" 
+		p:password="${jdbc.password}"
+		p:acquireIncrement="10" 
+		p:idleConnectionTestPeriod="60" 
+		p:maxPoolSize="100"
+		p:maxStatements="50" 
+		p:minPoolSize="10" />
+ -->
+
+	<!-- 개발 중에 마이바티스를 통해 작업되는 쿼리를 로그로 남겨 생산성을 향상시키기 위하여  DriverSpy를 사용한다. -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
+		<property name="url" value="jdbc:log4jdbc:oracle:thin:@192.168.0.27:1521:onj" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+		
+	<context:property-placeholder location="jdbc.properties"/>
+
+	<!-- Declare a transaction manager -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+
+	<!-- Enable annotation style of managing transactions -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<context:component-scan base-package="com.jacademy.y04mybatis">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- define the SqlSessionFactory, notice that configLocation is not needed 
+		when you use MapperFactoryBean -->
+	<!-- typeAliasesPackage: 이 하위 디렉터리의 클래스들은 모두 myBatis Mapper XML에서 parameter type 이나 result Type으로 사용할 수 있다. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="typeAliasesPackage" value="com.jacademy.y04mybatis.domain" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath*:com/jacademy/y04mybatis/mapper/**/*.xml</value>
+			</array>
+		</property>
+	</bean>
+	
+	<!-- scan for mappers and let them be autowired -->
+	<!-- 추상메소드를 한 개 이상 갖는 인터페이스만이 대상, 클래스는 대상에서 제외한다. -->
+	<!-- @Repository이 지정된 인터페이스만을 대상으로 삼는다. -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.jacademy.y04mybatis" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+	</bean>
+
+</beans>

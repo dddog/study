@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jacademy.mybatis01.dao.UserDao">
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<!-- 자료형으로 VO인 User객체를 사용한다. -->
+	<!-- 테이블에 모든 칼럼을 VO에 담을 필요가 없을 때 일분 칼럼만 지정하여 사용한다. -->
+	<!-- 테이블 칼럼명과 VO에 필드변수명이 일치하지 않을 때 바인딩정보를 설정한다. -->
+	<resultMap type="User" id="UserResult">
+		<id property="userId" column="user_id" />
+		<result property="emailId" column="email_id" />
+		<result property="password" column="password" />
+		<result property="firstName" column="first_name" />
+		<result property="lastName" column="last_name" />
+	</resultMap>
+	
+	<!-- 아이디는 인터페이스에 선언된 메소드명과 일치하게 작성한다. -->
+	<select id="getUserById" parameterType="int"
+		resultType="com.jacademy.mybatis01.model.User">
+		SELECT
+		user_id as userId,
+		email_id as emailId ,
+		password,
+		first_name as firstName,
+		last_name as lastName
+		FROM USER3
+		WHERE USER_ID =
+		#{userId}
+	</select>
+
+	<select id="getAllUsers" resultMap="UserResult">
+		SELECT * FROM USER3
+	</select>
+
+	<insert id="insertUser" parameterType="User">
+		<!-- 인서트 전에 실행하여 사용 될 시퀀스 번호 값을 구한다. -->
+		<!-- User.userId에 저장하여 돌려준다. -->
+		<selectKey resultType="java.lang.Integer" keyProperty="userId"
+			order="BEFORE">
+			SELECT last_number
+			FROM user_sequences
+			WHERE sequence_name =
+			'USER3_SEQ'
+		</selectKey>
+		INSERT INTO USER3(user_id, email_id, password, first_name, last_name)
+		VALUES(user3_seq.NEXTVAL, #{emailId}, #{password}, #{firstName},
+		#{lastName})
+	</insert>
+
+	<update id="updateUser" parameterType="User">
+		UPDATE USER3
+		SET
+		PASSWORD=
+		#{password},
+		FIRST_NAME = #{firstName},
+		LAST_NAME = #{lastName}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM USER3 WHERE
+		USER_ID = #{userId}
+	</delete>
+
+</mapper>

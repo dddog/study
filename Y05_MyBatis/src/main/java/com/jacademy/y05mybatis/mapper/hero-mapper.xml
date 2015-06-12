@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- The mapper element requires a namespace attribute to be specified. -->
+<mapper namespace="com.jacademy.y05mybatis.repository.HeroDao">
+
+	<resultMap type="com.jacademy.y05mybatis.domain.Hero" id="heroMap">
+		<result property="sno" column="sno" javaType="java.lang.Integer" jdbcType="NUMERIC" />
+		<result property="name" column="name"/>
+		<result property="age" column="age"/>
+	</resultMap>
+<!-- 
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey resultType="string" keyProperty="boardID" order="BEFORE">
+			SELECT MAX(boardID)+1 FROM board
+		</selectKey>
+		INSERT INTO board(boardID, title, content)
+		VALUES(#{boardID}, #{title}, #{content})
+	</insert>  
+ -->
+	<insert id="insert" parameterType="Hero">
+		<selectKey resultType="int" keyProperty="sno" order="BEFORE">
+			select last_number from user_sequences where sequence_name='HERO_SEQ'
+		</selectKey>
+		insert into hero(sno, name, age) values(hero_seq.NEXTVAL, #{name}, #{age})
+	</insert>
+
+	<delete id="delete" parameterType="Hero">
+		delete hero where sno=#{sno}
+	</delete>
+
+	<update id="update" parameterType="Hero">
+		update hero set name=#{name}, age=#{age} where sno=#{sno}
+	</update>
+
+	<select id="selectByKey" parameterType="Hero" resultMap="heroMap">
+		select * from hero where sno=#{sno}
+	</select>
+	
+	<select id="select" resultMap="heroMap">
+		select * from hero order by sno desc
+	</select>
+	
+	<select id="selectByLimit" parameterType="HeroInfo" resultMap="heroMap">
+	<![CDATA[
+		select * from (
+			select rownum as rnum, a.* from (select * from hero order by sno desc) a
+		) where rnum >= #{start} and rnum <= #{end} 
+	]]>
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from hero
+	</select>
+	
+	<!-- 
+	You have 3 options. 
+	1. Use CONCAT or || function in your query - database dependent. 
+	2. Add '%' in your service/dao layer before calling the query. 
+	3. Use %${specific_string}% in your query. Remember that this opens you to SQL injection. 
+	 -->
+<!-- 
+	<select id="search" parameterType="Hero" resultMap="heroMap">
+		select * from hero 
+		<where>
+			<if test="name != null">
+				name like '%'||#{name}||'%'
+			</if>
+			<if test="age > 0">
+				and age = #{age}
+			</if>
+		</where>
+	</select>
+	 -->
+	
+	<select id="search" parameterType="Hero" resultMap="heroMap">
+		select * from hero 
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="name != null">
+				and name like '%'||#{name}||'%'
+			</if>
+			<if test="age > 0">
+				and age = #{age}
+			</if>
+		</trim>
+	</select>
+	
+</mapper>
+
+
