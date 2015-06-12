@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- The mapper element requires a namespace attribute to be specified. -->
+<mapper namespace="com.jacademy.empboard.dao.EmpDao">
+	<resultMap type="com.jacademy.empboard.model.Emp" id="empMap">
+		<result property="empno" column="sno" javaType="java.lang.Integer" jdbcType="NUMERIC" />
+		<result property="ename" column="name"/>
+		<result property="job" column="age"/>
+		<result property="sal" column="age" javaType="java.lang.Double"/>
+	</resultMap>
+<!-- 
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey resultType="string" keyProperty="boardID" order="BEFORE">
+			SELECT MAX(boardID)+1 FROM board
+		</selectKey>
+		INSERT INTO board(boardID, title, content)
+		VALUES(#{boardID}, #{title}, #{content})
+	</insert>  
+ -->
+
+	<select id="selectByLimit" parameterType="Page" resultMap="daoMap">
+	<![CDATA[
+		select * from ( select rownum as rnum, a.* from ( select * from emp ) a ) where rnum >= #{start} and rnum <= #{end}
+	]]>
+	</select>
+	
+	<select id="select" resultMap="daoMap">
+		select * from emp
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from emp
+	</select>
+	
+</mapper>
+
+
